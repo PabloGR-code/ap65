@@ -1,21 +1,33 @@
 <?php
-require_once "autoload.php";
-$gestor = new Gestor();
-$progPresen=new Presencial("progP", "Programación Presencial", 10, "A.2.7");
-$progOnline=new Online("progO", "Programación Online", 10, "teams.com");
-var_dump($progPresen);
-var_dump($progOnline);
+require_once 'autoloader.php'; // carga todas las clases
+session_start();               // iniciar sesión antes de usar $_SESSION
 
-$gestor->agregar($progPresen);
-$gestor->agregar($progOnline);
-var_dump($_SESSION['asignaturas']);
+$controller = new Controlador();
 
-$gestor->actualizar("progP", "* Programación Presencial *", 1);
-var_dump($_SESSION['asignaturas']);
+$accion = $_GET['accion'] ?? 'index';
+$id = $_GET['id'] ?? null;
 
-$encontrado=$gestor->buscar("progO");
-var_dump($encontrado);
-
-$gestor->eliminar("progO");
-var_dump($_SESSION['asignaturas']);
-echo "******************";
+if ($accion == 'crear') {
+    $controller->crear();
+} 
+elseif ($accion == 'editar') {
+    if ($id) {
+        $controller->editar();
+    } else {
+        echo "No se indicó ID para editar";
+    }
+} 
+elseif ($accion == 'eliminar') {
+    if ($id) {
+        $controller->eliminar();
+    } else {
+        echo "No se indicó ID para eliminar";
+    }
+} 
+else { // index u otra acción no reconocida
+    $controller->index();
+}
+if ($accion == 'limpiar') {
+    $controller->limpiarSesion();
+}
+var_dump($_SESSION['ASIGNATURAS']);
