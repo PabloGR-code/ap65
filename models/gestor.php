@@ -1,45 +1,24 @@
 <?php
-class Gestor {
-    public function __construct() {
-        if (!isset($_SESSION['asignaturas'])) {
-            $_SESSION['asignaturas'] = [];
-        }
+class Presencial extends Asignatura{
+    private $aula;
+
+    public function __construct($cod, $nombre, $creditos, $aula){
+        parent::__construct($cod, $nombre, $creditos);
+        $this->aula=$aula;
+        $this->setHoras(20);
     }
 
-    public function agregar($asig) {
-        $_SESSION['asignaturas'][] = $asig;
+    public function info(){
+        $array=parent::info();
+        $array[]=$this->aula;
+        return $array;
     }
 
-    public function listar() {
-        return $_SESSION['asignaturas'];
+    public function setHoras($num){
+        $this->horas=$this->creditos*$num;
     }
-
-    public function buscar($cod) {
-        foreach ($_SESSION['asignaturas'] as $asig) {
-            if ($asig->getCod() == $cod) return $asig;
-        }
-        return null;
-    }
-
-    public function actualizar($cod, $nombre, $creditos) {
-        foreach ($_SESSION['asignaturas'] as $asig) {
-            if ($asig->getCod() == $cod) {
-                $asig->setNombre($nombre);
-                $asig->setCreditos($creditos);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public function eliminar($cod) {
-        foreach ($_SESSION['asignaturas'] as $i => $asig) {
-            if ($asig->getCod() == $cod) {
-                unset($_SESSION['asignaturas'][$i]);
-                $_SESSION['asignaturas'] = array_values($_SESSION['asignaturas']);
-                return true;
-            }
-        }
-        return false;
+    public function setCreditos($creditos){
+        parent::setCreditos($creditos);
+        $this->setHoras(20);
     }
 }
