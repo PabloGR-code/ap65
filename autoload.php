@@ -1,15 +1,10 @@
 <?php
-spl_autoload_register(function ($clase) {
-    // Busca en la carpeta models
-    $rutaModel = 'models/' . $clase . '.php';
-    if (file_exists($rutaModel)) {
-        require_once $rutaModel;
-    }
-    
-    // Busca en la carpeta controllers
-    $rutaController = 'controllers/' . $clase . '.php';
-    if (file_exists($rutaController)) {
-        require_once $rutaController;
+spl_autoload_register(function ($class) {
+    $paths = ['models/', 'controllers/'];
+    foreach ($paths as $path) {
+        $file = __DIR__ . '/' . $path . $class . '.php';
+        if (file_exists($file)) {
+            require_once $file;
+        }
     }
 });
-?>
