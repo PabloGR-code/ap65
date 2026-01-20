@@ -1,24 +1,41 @@
 <?php
-class Online extends Asignatura{
+class Online extends Asignatura {
     private $url;
-
-    public function __construct($cod, $nombre, $creditos, $url){
-        parent::__construct($cod, $nombre, $creditos);
-        $this->url=$url;
-        $this->setHoras(10);
+    function __construct($codigo,$nombre,$creditos, $url){
+        parent::__construct($codigo,$nombre,$creditos);
+        $this -> setHoras(10);
     }
-
-    public function info(){
+    function info(){
         $array=parent::info();
         $array[]=$this->url;
         return $array;
     }
-
-    public function setHoras($num){
-        $this->horas=$this->creditos*$num;
+    function setHoras($num){
+        $this -> horas = $this -> creditos * $num;
     }
-    public function setCreditos($creditos){
-        parent::setCreditos($creditos);
-        $this->setHoras(10);
+    function getNombre(){
+            return $this->nombre;
+    }
+    function getCreditos(){
+            return $this->creditos;
+    }
+    function getCodigo(){
+            return $this->codigo;
+    }
+    function getHoras(){
+            return $this->horas;
+    }
+    function getUrl(){
+            return $this->url;
+    }
+    function setCreditos($nuevoCredito){
+        $this->creditos = $nuevoCredito;
+        $this -> setHoras(20);
+    }
+    function setNombre($nuevoNombre){
+        $this->nombre = $nuevoNombre;
+    }
+    function setUrl($nuevoUrl){
+        $this->url = $nuevoUrl;
     }
 }
